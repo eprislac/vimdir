@@ -1,4 +1,5 @@
 inoremap jk <ESC>
+vnoremap <C-c> "*y
 let mapleader=","
 filetype off
 
@@ -31,6 +32,7 @@ set showmatch
 set incsearch
 set hlsearch
 set foldenable
+set rnu
 
 highlight FoldColumn guifg=black guibg=black
 highlight ColorColumn ctermbg=52
@@ -74,10 +76,19 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " " Plugin 'ascenator/L9', {'name': 'newL9'}
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'vim-syntastic/syntastic'
 Plugin 'osyo-manga/vim-monster'
 Plugin 'ternjs/tern_for_vim'
-
+Plugin 'marcopaganini/termschool-vim-theme'
+Plugin 'vim-scripts/SyntaxComplete'
+Plugin 'HerringtonDarkholme/yats.vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'terryma/vim-multiple-cursor'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'gabrielelana/vim-markdown'
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -94,3 +105,39 @@ filetype plugin indent on    " required
 " "
 " " see :h vundle for more details or wiki for FAQ
 " " Put your non-Plugin stuff after this line
+"
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+let g:typescript_indent_disable = 1
+let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+
+if !exists("g:ycm_semantic_triggers")
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers['typescript'] = ['.']
+autocmd BufNewFile,BufRead *.ts  set filetype=typescript
+
+" Relative line numbering goodness
+" use <Leader>L to toggle the line number counting method
+function! g:ToggleNuMode()
+  if(&rnu == 1)
+    set nornu
+  else
+    set rnu
+  endif
+endfunc
+nnoremap <Leader>l :call g:ToggleNuMode()<cr>
+set nornu
+colorscheme termschool
+set clipboard=unnamed 
