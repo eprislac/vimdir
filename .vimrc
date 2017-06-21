@@ -52,32 +52,17 @@ highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE gui
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin('~/some/path/here')
-"
 " " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 "
-" " The following are examples of different formats supported.
-" " Keep Plugin commands between vundle#begin/end.
-" " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
-" " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
-" " Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" " git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" " The sparkup vim script is in a subdirectory of this repo called vim.
-" " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" " Install L9 and avoid a Naming conflict if you've already installed a
-" " different version somewhere else.
-" " Plugin 'ascenator/L9', {'name': 'newL9'}
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'osyo-manga/vim-monster'
 Plugin 'ternjs/tern_for_vim'
@@ -86,9 +71,25 @@ Plugin 'vim-scripts/SyntaxComplete'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'leafgarland/typescript-vim'
-Plugin 'terryma/vim-multiple-cursor'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'gabrielelana/vim-markdown'
+Plugin 'tpope/vim-markdown'
+Plugin 'slim-template/vim-slim.git'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'reedes/vim-wordy'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'jonhiggs/MacDict.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'reedes/vim-pencil'
+Plugin 'alvan/vim-closetag'
+Plugin 'jtratner/vim-flavored-markdown'
+Plugin 'mhartington/nvim-typescript'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'universal-ctags/ctags'
+Plugin 'szw/vim-tags'
+Plugin 'tpope/vim-dispatch'
+Plugin 'ctrlpvim/ctrlp.vim'
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -98,7 +99,7 @@ filetype plugin indent on    " required
 " " Brief help
 " " :PluginList       - lists configured plugins
 " " :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
+" " :PluginUpdate
 " " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " " :PluginClean      - confirms removal of unused plugins; append `!` to
 " auto-approve removal
@@ -109,6 +110,7 @@ filetype plugin indent on    " required
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%f\ %l,%c
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
@@ -127,6 +129,7 @@ if !exists("g:ycm_semantic_triggers")
 endif
 let g:ycm_semantic_triggers['typescript'] = ['.']
 autocmd BufNewFile,BufRead *.ts  set filetype=typescript
+let g:pencil#autoformat = 1
 
 " Relative line numbering goodness
 " use <Leader>L to toggle the line number counting method
@@ -137,7 +140,63 @@ function! g:ToggleNuMode()
     set rnu
   endif
 endfunc
-nnoremap <Leader>l :call g:ToggleNuMode()<cr>
+nnoremap <Leader>L :call g:ToggleNuMode()<cr>
 set nornu
 colorscheme termschool
-set clipboard=unnamed 
+set clipboard=unnamed
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
+
+let g:nerdtree_tabs_smart_startup_focus=1
+let g:nerdtree_tabs_focus_on_files=0
+let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_autofind=1
+map <Leader>t :tabe 
+" Enable slim syntax highlight
+" autocmd FileType slim setlocal foldmethod=indent
+autocmd BufNewFile,BufRead *.slim set filetype=slim
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'ruby', 'javascript', 'python', 'bash=sh']
+hi clear SpellBad
+let &t_Cs = "\e[6m"
+let &t_Ce = "\e[24m""]"
+hi SpellBad gui=undercurl term=underline cterm=underline
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l -g --nocolor""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" bind \ (backward slash) to grep shortcut
+" " command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
+" "nnoremap \ :Ag<SPACE>
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd,md call pencil#init()
+  autocmd FileType text,txt call pencil#init()
+augroup END
+
+augroup markdown
+  au!
+  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+set autoread
+
+" Mimic RubyMine <C-d> : duplicate line
+map <C-d> yyp
+
+nnoremap <Leader>l :ls<CR> :b<space>
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
