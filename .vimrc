@@ -49,65 +49,6 @@ colo koehler
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"
-Plugin 'tpope/vim-fugitive'
-Plugin 'L9'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'osyo-manga/vim-monster'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'marcopaganini/termschool-vim-theme'
-Plugin 'vim-scripts/SyntaxComplete'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tpope/vim-markdown'
-Plugin 'slim-template/vim-slim.git'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'reedes/vim-wordy'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'jonhiggs/MacDict.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'reedes/vim-pencil'
-Plugin 'alvan/vim-closetag'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'mhartington/nvim-typescript'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'universal-ctags/ctags'
-Plugin 'szw/vim-tags'
-Plugin 'tpope/vim-dispatch'
-Plugin 'ctrlpvim/ctrlp.vim'
-" " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" " To ignore plugin indent changes, instead use:
-" "filetype plugin on
-" "
-" " Brief help
-" " :PluginList       - lists configured plugins
-" " :PluginInstall    - installs plugins; append `!` to update or just
-" " :PluginUpdate
-" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" " :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-" "
-" " see :h vundle for more details or wiki for FAQ
-" " Put your non-Plugin stuff after this line
-"
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%f\ %l,%c
