@@ -24,7 +24,6 @@ set showcmd
 set ruler
 set colorcolumn=80,100,120
 set numberwidth=5
-set foldcolumn=3
 set wildmenu
 set wildmode=list:longest,full
 set lazyredraw
@@ -58,7 +57,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
+let g:syntastic_typescript_checkers = ['ts']
 
 let g:typescript_indent_disable = 1
 let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
@@ -137,7 +136,32 @@ set autoread
 " Mimic RubyMine <C-d> : duplicate line
 map <C-d> yyp
 
-nnoremap <Leader>l :ls<CR> :b<space>
+nnoremap <Leader>l :files<CR> :b<space>
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+nmap <Leader>tt :TagbarToggle<CR>
+
+" testing extra-powerline-symbols
+
+" set font terminal font or set gui vim font to a Nerd Font (https://github.com/ryanoasis/nerd-fonts):
+set guifont= "Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ 12
+
+" testing fire separators (extra-powerline-symbols):
+let g:airline_left_sep = "\uE0C0"
+let g:airline_alt_left_sep = "\uE0C1"
+let g:airline_right_sep = "\uE0C2"
+let g:airline_alt_right_sep = "\uE0C3"
+let g:tmuxline_powerline_separators = 1
+let g:airline#extensions#tmuxline#enabled = 0
+let g:airline_skip_empty_sections = 1
+" set the CN (colmn number) symbol:
+" let g:airline_section_z = airline#section#create(["\uE0A1" . '%{line(".")}' . "\uE0A3" . '%{col(".")}'])
+"
+
+autocmd FileType javascript JsPreTmpl markdown
+autocmd FileType typescript JsPreTmpl markdown
+set wildchar=<Tab> wildmenu wildmode=full
+
+set wildcharm=<C-Z>
+nnoremap <F10> :b <C-Z>
